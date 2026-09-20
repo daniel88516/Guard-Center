@@ -1,0 +1,39 @@
+# .NET build output
+[Bb]in/
+[Oo]bj/
+.dotnet/
+
+# Locally deployed builds, diagnostics, and generated verification artifacts
+DeployBackups/
+artifacts/
+validation-screenshots/
+*.log
+launcher.log
+
+# IDE and per-user files
+.vs/
+*.user
+*.suo
+
+# Root-level deployed runtime files (source assets remain tracked)
+/Guard Center.exe
+/Guard Center.dll
+/Guard Center.pdb
+/Guard Center.deps.json
+/Guard Center.runtimeconfig.json
+/GuardCenter.CodexAdminLauncher.exe
+/GuardCenter.CodexAdminLauncher.dll
+/GuardCenter.CodexAdminLauncher.pdb
+/GuardCenter.CodexAdminLauncher.deps.json
+/GuardCenter.CodexAdminLauncher.runtimeconfig.json
+/GuardCenter.UacGuardHost.exe
+/GuardCenter.UacGuardHost.dll
+/GuardCenter.UacGuardHost.pdb
+/GuardCenter.UacGuardHost.core.dll
+/GuardCenter.UacGuardHost.deps.json
+/GuardCenter.UacGuardHost.runtimeconfig.json
+/Microsoft.Windows.SDK.NET.dll
+/System.Management.dll
+/WinRT.Runtime.dll
+/Wpf.Ui.dll
+/Wpf.Ui.Abstractions.dll

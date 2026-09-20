@@ -1,0 +1,666 @@
+<ui:FluentWindow x:Class="GuardCenter.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 Title="Guard Center"
+                 Width="1220"
+                 Height="780"
+                 MinWidth="940"
+                 MinHeight="640"
+                 WindowStartupLocation="CenterScreen"
+                 Background="#0F1219"
+                 Foreground="#F4F7FB"
+                 FontFamily="Segoe UI, Microsoft JhengHei UI"
+                 ExtendsContentIntoTitleBar="True">
+    <ui:FluentWindow.Resources>
+        <SolidColorBrush x:Key="WindowBrush" Color="#0F1219" />
+        <SolidColorBrush x:Key="SidebarBrush" Color="#111722" />
+        <SolidColorBrush x:Key="PanelBrush" Color="#181E2A" />
+        <SolidColorBrush x:Key="PanelHoverBrush" Color="#202838" />
+        <SolidColorBrush x:Key="BorderBrush" Color="#2A3446" />
+        <SolidColorBrush x:Key="TextBrush" Color="#F4F7FB" />
+        <SolidColorBrush x:Key="MutedBrush" Color="#A7B4C8" />
+        <SolidColorBrush x:Key="SubtleBrush" Color="#7D8AA0" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#2D7DFF" />
+        <SolidColorBrush x:Key="DisabledPanelBrush" Color="#151B25" />
+        <SolidColorBrush x:Key="NavIconBrush" Color="#71A7FF" />
+        <SolidColorBrush x:Key="NavIconTileBrush" Color="#17243A" />
+        <SolidColorBrush x:Key="NavIconTileBorderBrush" Color="#294263" />
+
+        <Style x:Key="NavButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Padding" Value="14,10" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Chrome"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#1A2331" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#243047" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ActionButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#232B3A" />
+            <Setter Property="BorderBrush" Value="#2F3A4E" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="18,8" />
+            <Setter Property="MinWidth" Value="96" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Chrome"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#2A3548" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#1D6FE6" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Chrome" Property="Opacity" Value="0.52" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryActionButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ActionButtonStyle}">
+            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+        </Style>
+
+        <Style x:Key="IconButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Chrome"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#1A2331" />
+                                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#243047" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SidebarModuleIconTileStyle" TargetType="{x:Type Border}">
+            <Setter Property="Width" Value="34" />
+            <Setter Property="Height" Value="34" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Background" Value="{StaticResource NavIconTileBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource NavIconTileBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="SidebarModuleIconStyle" TargetType="{x:Type ui:SymbolIcon}">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Foreground" Value="{StaticResource NavIconBrush}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </ui:FluentWindow.Resources>
+
+    <Grid x:Name="RootGrid" PreviewMouseWheel="RootGrid_PreviewMouseWheel">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#0F1219">
+            <ui:TitleBar x:Name="WindowTitleBar"
+                         Title="Guard Center"
+                         Height="40"
+                         ShowMinimize="True"
+                         ShowMaximize="True"
+                         ShowClose="True"
+                         ButtonsForeground="#F4F7FB"
+                         ButtonsBackground="#0F1219" />
+        </Border>
+
+        <Grid x:Name="ScaleHost" Grid.Row="1">
+            <Grid.LayoutTransform>
+                <ScaleTransform x:Name="UiScaleTransform" ScaleX="1" ScaleY="1" />
+            </Grid.LayoutTransform>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="34" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="SidebarColumn" Width="312" MinWidth="240" MaxWidth="620" />
+                    <ColumnDefinition Width="6" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="{StaticResource SidebarBrush}" Padding="0,28,0,22">
+                    <DockPanel LastChildFill="True">
+                        <StackPanel DockPanel.Dock="Top" Margin="24,0,24,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Guard Center"
+                                           FontSize="22"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextBrush}"
+                                           VerticalAlignment="Center" />
+                                <Button x:Name="SettingsNavButton"
+                                        Grid.Column="1"
+                                        Style="{StaticResource IconButtonStyle}"
+                                        ToolTip="Settings"
+                                        Click="SettingsNavButton_Click">
+                                    <TextBlock Text="⚙"
+                                               FontSize="18"
+                                               FontFamily="Segoe UI Symbol"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center" />
+                                </Button>
+                            </Grid>
+                            <TextBlock Text="Personal safety tools"
+                                       Margin="0,6,0,26"
+                                       FontSize="13"
+                                       Foreground="{StaticResource MutedBrush}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="MODULES"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource SubtleBrush}"
+                                           VerticalAlignment="Center" />
+                                <Button x:Name="ModuleOrderEditButton"
+                                        Grid.Column="1"
+                                        Width="28"
+                                        Height="28"
+                                        Margin="8,0,0,0"
+                                        Style="{StaticResource IconButtonStyle}"
+                                        ToolTip="Adjust module order"
+                                        Click="ModuleOrderEditButton_Click">
+                                    <TextBlock x:Name="ModuleOrderEditGlyph"
+                                               Text="&#x2195;"
+                                               FontSize="16"
+                                               FontFamily="Segoe UI Symbol"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center" />
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <TextBlock DockPanel.Dock="Bottom"
+                                   Text="Runs quietly in the tray."
+                                   Margin="24,0,24,0"
+                                   FontSize="12"
+                                   Foreground="{StaticResource SubtleBrush}"
+                                   VerticalAlignment="Bottom" />
+
+                        <ScrollViewer x:Name="SidebarModulesScrollViewer"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel x:Name="SidebarModulesPanel">
+                                <StackPanel.Margin>
+                                    <Thickness Left="24" Right="24" />
+                                </StackPanel.Margin>
+                                <Button x:Name="AudioNavButton"
+                                        Margin="0,8,0,8"
+                                        Style="{StaticResource NavButtonStyle}"
+                                        Click="AudioNavButton_Click">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border x:Name="AudioNavIconTile"
+                                                Style="{StaticResource SidebarModuleIconTileStyle}">
+                                            <ui:SymbolIcon x:Name="AudioNavIcon"
+                                                           Symbol="Speaker224"
+                                                           Style="{StaticResource SidebarModuleIconStyle}" />
+                                        </Border>
+                                        <StackPanel Grid.Column="1"
+                                                    Margin="12,0,0,0"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="Audio Guard"
+                                                       FontSize="14"
+                                                       FontWeight="SemiBold"
+                                                       TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="App volume &amp; safety"
+                                                       Margin="0,4,0,0"
+                                                       FontSize="12"
+                                                       Foreground="{StaticResource MutedBrush}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Button>
+
+                            <Button x:Name="DeviceGuardNavButton"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource NavButtonStyle}"
+                                    Click="DeviceGuardNavButton_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="DeviceGuardNavIconTile"
+                                            Style="{StaticResource SidebarModuleIconTileStyle}">
+                                        <ui:SymbolIcon x:Name="DeviceGuardNavIcon"
+                                                       Symbol="DesktopToolbox24"
+                                                       Style="{StaticResource SidebarModuleIconStyle}" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="Device Guard"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="Safe device repair"
+                                                   Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource MutedBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+
+                            <Button x:Name="KeyboardNavButton"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource NavButtonStyle}"
+                                    Click="KeyboardNavButton_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="KeyboardNavIconTile"
+                                            Style="{StaticResource SidebarModuleIconTileStyle}">
+                                        <ui:SymbolIcon x:Name="KeyboardNavIcon"
+                                                       Symbol="DesktopKeyboard24"
+                                                       Style="{StaticResource SidebarModuleIconStyle}" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="Keyboard Guard"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="Keyboard behavior"
+                                                   Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource MutedBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+
+                            <Button x:Name="GameHelperNavButton"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource NavButtonStyle}"
+                                    Click="GameHelperNavButton_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="GameHelperNavIconTile"
+                                            Style="{StaticResource SidebarModuleIconTileStyle}">
+                                        <ui:SymbolIcon x:Name="GameHelperNavIcon"
+                                                       Symbol="Games24"
+                                                       Style="{StaticResource SidebarModuleIconStyle}" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="Game Helper"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="Game experience tools"
+                                                   Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource MutedBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+
+                            <Button x:Name="AppGuardNavButton"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource NavButtonStyle}"
+                                    Click="AppGuardNavButton_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="AppGuardNavIconTile"
+                                            Style="{StaticResource SidebarModuleIconTileStyle}">
+                                        <ui:SymbolIcon x:Name="AppGuardNavIcon"
+                                                       Symbol="AppsList24"
+                                                       Style="{StaticResource SidebarModuleIconStyle}" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="App Guard"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="App catalog &amp; actions"
+                                                   Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource MutedBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+
+                            <Button x:Name="LinkGuardNavButton"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource NavButtonStyle}"
+                                    Click="LinkGuardNavButton_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="LinkGuardNavIconTile"
+                                            Style="{StaticResource SidebarModuleIconTileStyle}">
+                                        <ui:SymbolIcon x:Name="LinkGuardNavIcon"
+                                                       Symbol="Link24"
+                                                       Style="{StaticResource SidebarModuleIconStyle}" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="Link Guard"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="Linked app automation"
+                                                   Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource MutedBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+
+                            <Button x:Name="DisplayGuardNavButton"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource NavButtonStyle}"
+                                    Click="DisplayGuardNavButton_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="DisplayGuardNavIconTile"
+                                            Style="{StaticResource SidebarModuleIconTileStyle}">
+                                        <ui:SymbolIcon x:Name="DisplayGuardNavIcon"
+                                                       Symbol="BrightnessHigh24"
+                                                       Style="{StaticResource SidebarModuleIconStyle}" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="Display Guard"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="Monitor brightness &amp; modes"
+                                                   Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource MutedBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+
+                            <Button x:Name="VsrGuardNavButton"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource NavButtonStyle}"
+                                    Click="VsrGuardNavButton_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="VsrGuardNavIconTile"
+                                            Style="{StaticResource SidebarModuleIconTileStyle}">
+                                        <ui:SymbolIcon x:Name="VsrGuardNavIcon"
+                                                       Symbol="VideoClip24"
+                                                       Style="{StaticResource SidebarModuleIconStyle}" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="VSR Guard"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="RTX video enhancement"
+                                                   Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource MutedBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+
+                            <Button x:Name="PowerGuardNavButton"
+                                    Margin="0,0,0,8"
+                                    Style="{StaticResource NavButtonStyle}"
+                                    Click="PowerGuardNavButton_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="PowerGuardNavIconTile"
+                                            Style="{StaticResource SidebarModuleIconTileStyle}">
+                                        <ui:SymbolIcon x:Name="PowerGuardNavIcon"
+                                                       Symbol="Power24"
+                                                       Style="{StaticResource SidebarModuleIconStyle}" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="Power Guard"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="Temporary keep-awake"
+                                                   Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource MutedBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+
+                            <Button x:Name="UacGuardNavButton"
+                                    Style="{StaticResource NavButtonStyle}"
+                                    Click="UacGuardNavButton_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="UacGuardNavIconTile"
+                                            Style="{StaticResource SidebarModuleIconTileStyle}">
+                                        <ui:SymbolIcon x:Name="UacGuardNavIcon"
+                                                       Symbol="ShieldKeyhole24"
+                                                       Style="{StaticResource SidebarModuleIconStyle}" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="UAC Guard"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="Codex admin launcher"
+                                                   Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource MutedBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Border>
+
+                <GridSplitter x:Name="SidebarSplitter"
+                              Grid.Column="1"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              ResizeBehavior="PreviousAndNext"
+                              ResizeDirection="Columns"
+                              Background="#1F2A3B"
+                              ShowsPreview="False"
+                              DragCompleted="SidebarSplitter_DragCompleted" />
+
+                <ScrollViewer x:Name="ContentScrollViewer"
+                              Grid.Column="2"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              Background="{StaticResource WindowBrush}">
+                    <Border x:Name="ContentFrame"
+                            Padding="64,44,58,44"
+                            Width="{Binding ActualWidth, ElementName=ContentScrollViewer}">
+                        <StackPanel x:Name="ContentStack"
+                                    MaxWidth="1060"
+                                    HorizontalAlignment="Stretch">
+                            <Grid Margin="0,0,0,28">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock x:Name="PageTitleText"
+                                               Grid.Column="0"
+                                               FontSize="30"
+                                               FontWeight="SemiBold"
+                                               LineHeight="36"
+                                               Foreground="{StaticResource TextBrush}" />
+
+                                    <Button x:Name="HeaderHelpButton"
+                                            Grid.Column="1"
+                                            Width="36"
+                                            Height="36"
+                                            Margin="14,0,0,0"
+                                            Padding="0"
+                                            VerticalAlignment="Top"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            AutomationProperties.Name="UAC Guard 說明"
+                                            ToolTip="UAC Guard 說明"
+                                            Visibility="Collapsed"
+                                            Click="HeaderHelpButton_Click">
+                                        <ui:SymbolIcon Symbol="Info24"
+                                                       FontSize="20"
+                                                       Foreground="{StaticResource TextBrush}" />
+                                    </Button>
+
+                                    <ui:ToggleSwitch x:Name="HeaderEnabledSwitch"
+                                                     Grid.Column="2"
+                                                     Margin="22,5,0,0"
+                                                     Width="66"
+                                                     Height="34"
+                                                     VerticalAlignment="Top"
+                                                     Checked="HeaderEnabledSwitch_Toggled"
+                                                     Unchecked="HeaderEnabledSwitch_Toggled" />
+                                </Grid>
+
+                                <TextBlock x:Name="PageSubtitleText"
+                                           Grid.Row="1"
+                                           Margin="0,4,0,0"
+                                           FontSize="14"
+                                           Foreground="{StaticResource MutedBrush}"
+                                           TextWrapping="Wrap" />
+                            </Grid>
+
+                            <StackPanel x:Name="SettingsStack" />
+                        </StackPanel>
+                    </Border>
+                </ScrollViewer>
+            </Grid>
+
+            <Border Grid.Row="1" Background="#0B0F16" Padding="16,0">
+                <TextBlock x:Name="StatusTextBlock"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           Foreground="{StaticResource MutedBrush}"
+                           TextTrimming="CharacterEllipsis" />
+            </Border>
+        </Grid>
+    </Grid>
+</ui:FluentWindow>

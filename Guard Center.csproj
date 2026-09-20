@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>GuardCenter</RootNamespace>
+    <AssemblyName>Guard Center</AssemblyName>
+    <ApplicationIcon>Assets\GuardCenter.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="WPF-UI" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="GuardCenter.Tests\**\*.cs" />
+    <Compile Remove="Tools\UacGuardHost\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Tools\UacGuardHost\GuardCenter.UacGuardHost.csproj"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Interception\interception-shim.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Interception\interception-sparse.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Interception\guardcenter-huajuan-shim.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="CopyUacGuardHost" AfterTargets="Build">
+    <ItemGroup>
+      <UacGuardHostFiles Include="$(MSBuildProjectDirectory)\Tools\UacGuardHost\bin\$(Configuration)\net8.0-windows\GuardCenter.UacGuardHost.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(UacGuardHostFiles)"
+          DestinationFolder="$(OutDir)"
+          SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(TargetPath)"
+          DestinationFiles="$(OutDir)GuardCenter.UacGuardHost.core.dll"
+          SkipUnchangedFiles="true" />
+  </Target>
+</Project>
