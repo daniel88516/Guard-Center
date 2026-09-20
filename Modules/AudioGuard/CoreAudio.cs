@@ -346,4 +346,3 @@ namespace GuardCenter
         int GetMute([MarshalAs(UnmanagedType.Bool)] out bool isMuted);
     }
 }
-

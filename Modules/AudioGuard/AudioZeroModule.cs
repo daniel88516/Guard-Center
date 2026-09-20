@@ -636,6 +636,5 @@ namespace GuardCenter
             return string.IsNullOrEmpty(deviceId) ? "(none)" : deviceId;
         }
     }
-
 }
 
