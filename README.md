@@ -1034,19 +1034,26 @@ dotnet run --project "Guard Center.csproj"
 bin\Debug\net8.0-windows\Guard Center.exe
 ```
 
-# Release Build
+# 建置可交付版本
 
-建立 Release：
+建置者在 Windows x64 電腦安裝 .NET 8 SDK 後，於專案根目錄執行：
 
 ```powershell
-dotnet build -c Release
+.\build.bat
 ```
 
-輸出位置：
+腳本會發布主程式及 UAC Guard Host，封裝成 `dist\Guard Center.exe`。
+**`dist` 最終只有這一個檔案**；交付時可以單獨複製此 exe，不必附上原始碼或 `bin` 目錄。
+建置訊息使用英文；成功或失敗時視窗會停留，按任意鍵才關閉。
 
-```text
-bin\Release\net8.0-windows\
-```
+使用者在 Windows x64 上首次啟動時，單檔啟動器會自動將內含的程式檔及
+.NET 8 執行環境展開至 `%LOCALAPPDATA%\Guard Center\Portable`，再啟動主程式。
+因此使用者不需安裝 .NET Desktop Runtime、開啟 IDE 或自行編譯。
+一般設定存於 `%LOCALAPPDATA%\Guard Center\Portable\State\Shared\settings.ini`；
+更新或移動 exe 時仍可沿用設定。不同版本的展開檔目前可能留在該資料夾。
+
+UAC Guard 等特殊功能仍可能需要相應硬體、驅動、額外元件與使用者授權。
+目前尚未提供公開的 GitHub Release 或安裝程式。
 
 ---
 

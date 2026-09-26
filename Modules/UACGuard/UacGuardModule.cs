@@ -781,9 +781,6 @@ namespace GuardCenter
             string[] names =
             {
                 "GuardCenter.UacGuardHost.exe",
-                "GuardCenter.UacGuardHost.dll",
-                "GuardCenter.UacGuardHost.deps.json",
-                "GuardCenter.UacGuardHost.runtimeconfig.json",
                 "GuardCenter.UacGuardHost.core.dll"
             };
             foreach (string name in names)
@@ -795,6 +792,23 @@ namespace GuardCenter
                 }
                 File.Copy(source, Path.Combine(InstallDirectory, name), true);
             }
+
+            // Framework-dependent builds include these files; the self-contained
+            // single-file distribution embeds them in the host executable.
+            string[] optionalNames =
+            {
+                "GuardCenter.UacGuardHost.dll",
+                "GuardCenter.UacGuardHost.deps.json",
+                "GuardCenter.UacGuardHost.runtimeconfig.json"
+            };
+            foreach (string name in optionalNames)
+            {
+                string source = Path.Combine(AppContext.BaseDirectory, name);
+                if (File.Exists(source))
+                {
+                    File.Copy(source, Path.Combine(InstallDirectory, name), true);
+                }
+            }
         }
 
         private static bool AreProtectedHostFilesInstalled()
@@ -802,14 +816,25 @@ namespace GuardCenter
             string[] names =
             {
                 "GuardCenter.UacGuardHost.exe",
-                "GuardCenter.UacGuardHost.dll",
-                "GuardCenter.UacGuardHost.deps.json",
-                "GuardCenter.UacGuardHost.runtimeconfig.json",
                 "GuardCenter.UacGuardHost.core.dll"
             };
             foreach (string name in names)
             {
                 if (!File.Exists(Path.Combine(InstallDirectory, name)))
+                {
+                    return false;
+                }
+            }
+            string[] optionalNames =
+            {
+                "GuardCenter.UacGuardHost.dll",
+                "GuardCenter.UacGuardHost.deps.json",
+                "GuardCenter.UacGuardHost.runtimeconfig.json"
+            };
+            foreach (string name in optionalNames)
+            {
+                if (File.Exists(Path.Combine(AppContext.BaseDirectory, name))
+                    && !File.Exists(Path.Combine(InstallDirectory, name)))
                 {
                     return false;
                 }

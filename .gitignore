@@ -2,6 +2,8 @@
 [Bb]in/
 [Oo]bj/
 .dotnet/
+dist/
+/研究所推甄專題報告初稿.txt
 
 # Locally deployed builds, diagnostics, and generated verification artifacts
 DeployBackups/

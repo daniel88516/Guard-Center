@@ -19,6 +19,7 @@
   <ItemGroup>
     <Compile Remove="GuardCenter.Tests\**\*.cs" />
     <Compile Remove="Tools\UacGuardHost\**\*.cs" />
+    <Compile Remove="Tools\PortableLauncher\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>

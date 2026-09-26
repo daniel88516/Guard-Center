@@ -522,10 +522,16 @@ namespace GuardCenter
     {
         public static readonly string Root = Path.GetFullPath(AppContext.BaseDirectory)
             .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-        public static readonly string SharedRoot = Path.Combine(Root, "Shared");
+        public static readonly string SharedRoot = string.IsNullOrWhiteSpace(
+                Environment.GetEnvironmentVariable("GUARD_CENTER_PORTABLE_DATA_ROOT"))
+            ? Path.Combine(Root, "Shared")
+            : Path.Combine(Environment.GetEnvironmentVariable("GUARD_CENTER_PORTABLE_DATA_ROOT"), "Shared");
         public static readonly string SettingsPath = Path.Combine(SharedRoot, "settings.ini");
         public static readonly string LogPath = Path.Combine(Root, "Guard Center.log");
-        public static readonly string InstalledExePath = Path.Combine(Root, "Guard Center.exe");
+        public static readonly string InstalledExePath = string.IsNullOrWhiteSpace(
+                Environment.GetEnvironmentVariable("GUARD_CENTER_PORTABLE_LAUNCHER"))
+            ? Path.Combine(Root, "Guard Center.exe")
+            : Environment.GetEnvironmentVariable("GUARD_CENTER_PORTABLE_LAUNCHER");
         public static readonly string PersistentRoot = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Guard Center");
         public static readonly string AppearanceRoot = Path.Combine(PersistentRoot, "Appearance");
