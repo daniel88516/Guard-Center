@@ -1,49 +1,49 @@
 # Guard Center
 
-## 快速開始：直接執行 exe，或用 build.bat 建置
+## Quick start: Run the exe directly or build it with build.bat
 
-**Guard Center 可打包成單一 `Guard Center.exe`，在 Windows x64 上直接啟動；也可以下載原始碼，雙擊 `build.bat` 自行產生這個 exe，不必安裝或開啟 Visual Studio。**
+**Guard Center can be packaged as a single `Guard Center.exe` that runs directly on Windows x64. You can also download the source code and double-click `build.bat` to create the exe yourself, without installing or opening Visual Studio.**
 
-### 已取得建置完成的 exe
+### If you already have the built exe
 
-直接雙擊單檔版本的 `Guard Center.exe` 即可使用，不需要另外安裝 .NET Desktop Runtime 或 SDK。
-首次啟動會自動把內含的必要元件展開至使用者的 `%LOCALAPPDATA%\Guard Center\Portable`，再開啟主程式。
+Double-click the single-file `Guard Center.exe` to use it. You do not need to install the .NET Desktop Runtime or SDK separately.
+On first launch, it automatically extracts the bundled components it needs to `%LOCALAPPDATA%\Guard Center\Portable`, then starts the main program.
 
-### 從原始碼產生 exe
+### Build the exe from source
 
-1. 下載此 Repository 的 ZIP 並完整解壓縮，或使用 Git clone。
-2. 如果電腦尚未安裝 SDK，從 [Microsoft 官方下載頁](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) 安裝 **.NET 8 SDK 的 Windows x64 版本**。
-3. 雙擊專案根目錄的 [`build.bat`](build.bat)，等待建置完成；也可以在 PowerShell 執行：
+1. Download this repository as a ZIP and extract it completely, or clone it with Git.
+2. If the SDK is not installed, install the **Windows x64 version of the .NET 8 SDK** from the [official Microsoft download page](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
+3. Double-click [`build.bat`](build.bat) in the project root and wait for the build to finish. You can also run it in PowerShell:
 
    ```powershell
    .\build.bat
    ```
 
-4. 開啟 `dist`，執行裡面的 **`Guard Center.exe`**。`dist` 只有這一個檔案，可以單獨複製給其他 Windows x64 使用者；建置也會同步更新根目錄的同名 exe。
+4. Open `dist` and run **`Guard Center.exe`** inside it. `dist` contains only this file, which you can copy by itself to other Windows x64 users. The build also updates the exe with the same name in the project root.
 
-建置需要的 NuGet 套件與發布用執行元件會由 .NET 自動下載，第一次建置請保持網路連線。
-訊息中的 `restore` 是取得專案相依套件的正常步驟。
-建置訊息使用英文，結束後視窗會保留結果，按任意鍵才關閉。
+.NET automatically downloads the required NuGet packages and publishing runtime components. Keep an internet connection available for the first build.
+The `restore` message is a normal step that retrieves project dependencies.
+Build messages are in English. When the build ends, the window stays open until you press any key.
 
-### 如果提示缺少元件
+### If you are prompted about missing components
 
-| 提示或情況 | 處理方式 |
+| Message or situation | What to do |
 | --- | --- |
-| 找不到 `dotnet`，或顯示未安裝 .NET SDK | 安裝上方官方連結中的 .NET 8 SDK，完成後重新開啟 `build.bat`。 |
-| 套件下載失敗或無法連線至 NuGet | 確認網路連線與 NuGet 來源可用，再執行 `build.bat`；相依套件會自動重新取得。 |
-| 使用 UAC Guard 等功能時提示需要額外元件 | 依該模組的設定／安裝提示補齊必要元件，並在需要時完成 Windows UAC 授權。硬體功能亦需相容的裝置與驅動。 |
+| `dotnet` cannot be found, or the .NET SDK is reported as missing | Install the .NET 8 SDK from the official link above, then reopen `build.bat`. |
+| Package downloads fail or NuGet cannot be reached | Check your internet connection and NuGet sources, then run `build.bat` again. Dependencies will be downloaded automatically. |
+| UAC Guard or another feature prompts for additional components | Follow that module's setup or installation prompt to add the required components, and approve Windows UAC when needed. Hardware features also require compatible devices and drivers. |
 
-上述單檔使用方式適用於 `build.bat` 產生的 `dist\Guard Center.exe`。
-一般 `dotnet build` 的輸出仍需搭配其附檔與 .NET Desktop Runtime。
-目前 GitHub 的 Download ZIP 提供原始碼，尚無公開 Releases 成品；可依上方步驟自行建置。
+The single-file instructions above apply to `dist\Guard Center.exe` produced by `build.bat`.
+The output of a regular `dotnet build` still requires its accompanying files and the .NET Desktop Runtime.
+The GitHub Download ZIP currently contains source code; there are no public release binaries yet. You can build one using the steps above.
 
 ---
 
-## 專案介紹
+## Project overview
 
-Guard Center 是一套專為 Windows 設計的桌面系統工具，將日常使用電腦時分散在 Windows、驅動程式、控制台與不同應用程式中的功能集中到同一個介面。
+Guard Center is a Windows desktop system utility that brings together features otherwise scattered across Windows, drivers, Control Panel, and different applications into one interface.
 
-它目前包含：
+It currently includes:
 
 - Audio Guard
 - Device Guard
@@ -56,111 +56,109 @@ Guard Center 是一套專為 Windows 設計的桌面系統工具，將日常使�
 - UAC Guard
 - VSR Guard
 
-Guard Center 採用 **C# / .NET 8 / WPF** 開發。
+Guard Center is built with **C# / .NET 8 / WPF**.
 
 ---
 
-# 主要功能
+# Main features
 
 ## Audio Guard
 
-Audio Guard 用來管理 Windows 音訊 Session，以及在音訊裝置切換時執行保護動作。
+Audio Guard manages Windows audio sessions and performs protective actions when audio devices change.
 
 ### App Mixer
 
-App Mixer 會列出目前存在的 Core Audio Session。
+App Mixer lists the Core Audio sessions currently available.
 
-你可以針對不同應用程式：
+For each application, you can:
 
-- 調整音量
-- 靜音 / 取消靜音
-- 查看目前正在使用音訊的程式
+- Adjust its volume
+- Mute or unmute it
+- See which programs are currently using audio
 
-如果某個程式沒有出現在列表中，先讓該程式播放一次音訊，再回到 Audio Guard。
+If a program does not appear in the list, play audio from it once and then return to Audio Guard.
 
-Guard Center 只會在需要時更新音訊 Session，避免單純瀏覽介面時持續執行不必要的重型操作。
+Guard Center updates audio sessions only when needed, avoiding unnecessary heavy operations while you simply browse the interface.
 
 ---
 
 ## Audio Zero Guard
 
-Audio Zero Guard 是裝置切換保護功能。
+Audio Zero Guard protects you when the audio output device changes.
 
-例如：
+For example:
 
-1. 原本使用耳機。
-2. 耳機突然拔除。
-3. Windows 自動切換到喇叭。
-4. 新的輸出裝置可能保留原本的高音量。
-5. Audio Zero Guard 偵測到音訊拓樸改變後，立即執行設定的保護。
+1. You are using headphones.
+2. The headphones are suddenly unplugged.
+3. Windows automatically switches to speakers.
+4. The new output device might retain the previous high volume.
+5. Audio Zero Guard detects the change in audio topology and immediately applies the configured protection.
 
-可選功能：
+Available options:
 
 ### Set mute
 
-音訊裝置切換後，將目前播放裝置設為靜音。
+Mute the current playback device after an audio device switch.
 
 ### Set volume to 0
 
-音訊裝置切換後，將播放裝置 Master Volume 設成 `0`。
+Set the playback device's master volume to `0` after an audio device switch.
 
 ### Zero audio when enabled
 
-開啟 Audio Guard 時立即執行一次目前設定的保護。
+Apply the currently configured protection once as soon as Audio Guard is enabled.
 
 ### React to property changes
 
-除了裝置增加、移除與切換之外，也將驅動程式或 Audio Endpoint 的屬性變化視為需要重新套用保護的事件。
+In addition to devices being added, removed, or switched, treat changes to driver or audio endpoint properties as events that require the protection to be reapplied.
 
 ### Poll interval
 
-設定 Audio Guard 檢查音訊拓樸的間隔。
+Set how often Audio Guard checks the audio topology.
 
-單位為毫秒。
+The unit is milliseconds.
 
 ### Retry delays
 
-設定裝置切換後的補充檢查時間。
+Set additional check times after a device switch.
 
-部分 Windows 音訊驅動不會在裝置切換瞬間立即完成所有狀態更新，因此 Guard Center 可以稍後再次執行保護。
+Some Windows audio drivers do not finish updating all their state immediately when a device switches, so Guard Center can apply the protection again later.
 
 ---
 
 # Device Guard
 
-Device Guard 用來檢查 Windows 硬體與 PnP 裝置狀態。
+Device Guard checks the state of Windows hardware and Plug and Play (PnP) devices.
 
-它分成三個部分：
+It has three parts:
 
-1. 目前可偵測裝置
-2. 電腦核心硬體
-3. 輸入裝置堆疊
-
----
-
-## 目前可偵測裝置
-
-列出 Windows 現在仍能辨識到的 PnP 裝置，例如：
-
-- Bluetooth Adapter
-- USB Camera
-- USB Audio
-- 其他可重新啟動的 PnP Device
-
-Guard Center 可以對指定裝置執行重新啟動，用來處理某些：
-
-- 裝置卡死
-- 驅動短暫異常
-- USB 裝置沒有正常工作
-- Bluetooth / Camera / Audio 裝置需要重新初始化
-
-的情況。
+1. Currently detectable devices
+2. Core computer hardware
+3. Input device stack
 
 ---
 
-## 電腦核心硬體
+## Currently detectable devices
 
-Guard Center 會從整個 Windows 裝置樹判斷主要硬體能力，例如：
+Lists PnP devices that Windows can still recognize, such as:
+
+- Bluetooth adapters
+- USB cameras
+- USB audio devices
+- Other PnP devices that can be restarted
+
+Guard Center can restart a selected device to address cases where:
+
+- A device is unresponsive
+- A driver has a temporary problem
+- A USB device is not working properly
+- A Bluetooth, camera, or audio device needs to be reinitialized
+
+---
+
+## Core computer hardware
+
+Guard Center determines the computer's main hardware capabilities from the complete Windows device tree, including:
 
 - Bluetooth
 - Graphics
@@ -169,10 +167,10 @@ Guard Center 會從整個 Windows 裝置樹判斷主要硬體能力，例如：
 - Camera
 - USB
 
-並區分：
+It distinguishes states such as:
 
-- 正常
-- 異常
+- Healthy
+- Faulty
 - Disabled
 - Missing
 - Driver required
@@ -180,257 +178,235 @@ Guard Center 會從整個 Windows 裝置樹判斷主要硬體能力，例如：
 - Unsupported
 - Ambiguous identity
 
-等狀態。
-
-修復操作具有風險等級：
+Repair actions have risk levels:
 
 - Low
 - Medium
 - High
 - Critical
 
-較高風險的修復不會在沒有明確授權的情況下直接執行。
+Higher-risk repairs are not performed without explicit authorization.
 
-部分裝置修復可能需要系統管理員權限、重新啟動 Windows，或重新安裝驅動程式。
+Some device repairs may require administrator privileges, a Windows restart, or a driver reinstall.
 
 ---
 
-## 輸入裝置堆疊
+## Input device stack
 
-這個區域主要用來檢查特殊 Keyboard / Mouse Input Stack。
+This area primarily checks specialized keyboard and mouse input stacks.
 
-目前包含對：
+Current checks include:
 
 - Interception
-- HuaJuan 相容層
-- Windows Input Device
-- Device Namespace
+- HuaJuan compatibility layer
+- Windows input devices
+- Device namespace
 
-等項目的檢查。
-
-Guard Center 會盡量依照硬體身分辨識輸入裝置，而不是依賴可能隨重新插拔而改變的 Windows Device Number。
+Guard Center tries to identify input devices by hardware identity instead of relying on Windows device numbers that may change when devices are reconnected.
 
 ---
 
 # Keyboard Guard
 
-Keyboard Guard 將幾個 Windows 中很分散、但經常影響實際使用體驗的鍵盤功能集中管理。
+Keyboard Guard brings together several Windows keyboard features that are scattered across settings but often affect everyday use.
 
 ## Disable Shift + Space width toggle
 
-Microsoft 注音等中文輸入法中：
+In Chinese input methods such as Microsoft Bopomofo, `Shift + Space` may toggle between:
 
-`Shift + Space`
+- Full-width characters
+- Half-width characters
 
-可能會切換：
+Enabling this feature prevents that full-width/half-width toggle.
 
-- 全形
-- 半形
+Shift and Space still reach the active application normally; the keys themselves are not blocked.
 
-開啟此功能後，Guard Center 會阻止這個「全形 / 半形切換行為」。
+## Disable the five-Shift Sticky Keys shortcut
 
-Shift 與 Space 本身仍然會正常傳給目前程式，因此不會直接把這兩個按鍵封鎖。
+Disables the Windows shortcut:
 
-## 停用連按五次 Shift 啟動相黏鍵
+**Press Shift five times → Sticky Keys**
 
-停用 Windows 的：
+This does not disable Shift itself or affect:
 
-**連續按五次 Shift → Sticky Keys**
-
-快捷鍵。
-
-這不會停用 Shift 本身，也不會影響：
-
-- Shift + 字母
+- Shift + a letter
 - Ctrl + Shift
-- 遊戲中的 Shift 操作
+- Shift controls in games
 
-Guard Center 只修改 Sticky Keys 的快捷鍵行為。
+Guard Center changes only the Sticky Keys shortcut behavior.
 
 ## Windows keyboard settings
 
-可以直接開啟 Windows：
+Open these Windows pages directly:
 
 - Typing Settings
 - Language Settings
 
-不用自己在 Windows Settings 裡尋找。
+You do not need to find them in Windows Settings yourself.
 
 ---
 
 # Game Helper
 
-Game Helper 提供一些與遊戲操作相關的系統功能。
+Game Helper provides system features related to gaming controls.
 
 ## Screen Crosshair
 
-可以在螢幕中央顯示 FPS 準心。
+Display an FPS crosshair in the center of the screen.
 
-Crosshair：
+The crosshair:
 
-- 永遠置頂
-- 背景透明
-- 滑鼠穿透
-- 不攔截遊戲滑鼠操作
+- Stays on top
+- Has a transparent background
+- Lets mouse input pass through
+- Does not intercept mouse input in games
 
-可以從 Guard Center 主介面控制，也可以直接從系統匣切換：
+You can control it from the Guard Center main window or toggle it directly from the system tray:
 
 `Screen crosshair: On / Off`
 
 ## Only show in selected apps
 
-Crosshair 可以限制為：
+You can limit the crosshair to appear **only while selected programs are in the foreground**.
 
-**只有指定程式位於前景時才顯示。**
-
-例如只加入：
+For example, if you add only:
 
 `game.exe`
 
-之後，在桌面、瀏覽器或其他程式中就不會出現 Crosshair。
+the crosshair will not appear on the desktop, in a browser, or in other programs.
 
 ## Keep Enhance pointer precision off
 
-Windows 的：
+The Windows setting **Enhance pointer precision** is Windows mouse acceleration.
 
-**Enhance pointer precision**
+When this guard is enabled:
 
-就是 Windows Mouse Acceleration。
+1. Guard Center immediately turns off Enhance pointer precision.
+2. It checks again every 30 seconds.
+3. If another program turns mouse acceleration back on, Guard Center turns it off again.
 
-開啟這個 Guard 後：
-
-1. Guard Center 會立即將 Enhance pointer precision 關閉。
-2. 之後每 30 秒重新檢查。
-3. 如果其他程式重新打開 Mouse Acceleration，Guard Center 會再次關閉。
-
-這是一個全域設定，不綁定單一遊戲。
+This is a system-wide setting; it is not tied to a single game.
 
 ---
 
 # Game Protection Settings
 
-Game Helper 可以針對個別遊戲建立 Protection Profile。
+Game Helper can create a protection profile for each game.
 
-每個 App 可以獨立設定。
+Each app can be configured independently.
 
-目前包含：
+Current options include:
 
 ### Windows Key Protection
 
-遊戲執行時封鎖 Windows Key，避免誤觸跳回桌面。
+Block the Windows key while a game runs to prevent accidental switches to the desktop.
 
 ### Right Ctrl + D
 
-提供遊戲期間的特殊 Show Desktop 行為。
+Provide special Show Desktop behavior while gaming.
 
 ### Input Method Protection
 
-針對遊戲控制 Microsoft ENG / Windows Input Method 行為，避免遊戲期間輸入法突然切換。
+Control Microsoft ENG / Windows input method behavior for games to prevent unexpected input method changes during play.
 
 ## Manage apps
 
-Game Helper 的 App 管理分成：
+Game Helper's app management has two areas:
 
 ### Protected apps
 
-已經加入 Game Protection 的 App。
+Apps already added to Game Protection.
 
 ### All apps
 
-Guard Center 會從 Windows 已安裝程式、Start Menu 等來源建立 Application Catalog。
+Guard Center builds an application catalog from Windows installed programs, the Start Menu, and other sources.
 
-第一次切換到 All apps 時才進行背景載入，不會因為單純開啟 Game Helper 就掃描整台電腦。
+Background loading starts only when you switch to All apps for the first time. Simply opening Game Helper does not scan the entire computer.
 
-新增 App 後，即可設定各項 Game Protection。
+After adding an app, you can configure its Game Protection options.
 
 ---
 
 # App Guard
 
-App Guard 是 Guard Center 的應用程式管理中心。
+App Guard is Guard Center's application management hub.
 
-它會整合不同來源建立 Application Catalog，例如：
+It combines sources into an application catalog, including:
 
 - Windows Registry
 - Start Menu
-- Installed Apps
+- Installed apps
 - Steam
 - Executable information
 
-Guard Center 會盡量將實際上屬於同一個應用程式的不同來源資料合併，而不是直接顯示大量重複項目。
+Guard Center tries to merge records from different sources that refer to the same application instead of showing many duplicates.
 
-## App 資訊
+## App information
 
-展開 App 後，可以查看例如：
+Expand an app to see information such as:
 
-- App Name
+- App name
 - Publisher
-- Executable Path
-- Install Location
+- Executable path
+- Install location
 - Source
-- Running State
+- Running state
 - Uninstall information
 
-## App 操作
+## App actions
 
-依照該 App 可以取得的資訊不同，可以執行：
+Depending on the information available for an app, you can:
 
-- 啟動 App
-- 開啟相關位置
-- 管理執行中的 Process
+- Launch the app
+- Open related locations
+- Manage running processes
 - Terminate
 - Uninstall
 
 ### Terminate
 
-只會針對符合該 Executable Path 的 Process 執行終止。
+Only processes matching that executable path are terminated.
 
-執行前會再次要求確認。
+You are asked to confirm again before the action runs.
 
-Guard Center 不允許從 App Guard 終止 Guard Center 自己。
+Guard Center does not allow you to terminate Guard Center itself from App Guard.
 
 ### Uninstall
 
-如果 Windows Application Catalog 中存在有效 Uninstall Command，就可以從 App Guard 啟動該解除安裝流程。
+If the Windows application catalog contains a valid uninstall command, App Guard can start that uninstall process.
 
-執行前同樣會要求確認。
+You are also asked to confirm before it runs.
 
 ---
 
 # Explorer Integration
 
-App Guard 可以加入 Windows Explorer 右鍵選單。
+App Guard can add an entry to the Windows Explorer context menu.
 
-開啟：
-
-**Shortcut right-click entry**
-
-後，Guard Center 會為：
+Enable **Shortcut right-click entry** to add a Guard Center entry for:
 
 - `.exe`
 - `.lnk`
 
-加入 Guard Center 入口。
+You can then select a program in Explorer and send it to App Guard.
 
-之後可以直接在 Explorer 中選擇程式並交給 App Guard 處理。
-
-關閉後會移除這個整合。
+Turning this option off removes the integration.
 
 ---
 
 # Link Guard
 
-Link Guard 用來建立應用程式之間的啟動與存活關係。
+Link Guard creates launch and running-state relationships between applications.
 
-適合兩個需要一起執行的程式。
+It is useful for two programs that should run together.
 
-例如：
+For example:
 
 ```text
 Game.exe → Helper.exe
 ```
 
-當 Game 啟動後，自動啟動 Helper。
+When the game starts, the helper starts automatically.
 
 ## One-way
 
@@ -438,15 +414,15 @@ Game.exe → Helper.exe
 A → B
 ```
 
-意思是：
+This means:
 
-> A 執行時，B 必須一起執行。
+> While A runs, B must run too.
 
-但是：
+But:
 
-> 單獨執行 B 不會啟動 A。
+> Running B alone does not start A.
 
-例如：
+For example:
 
 ```text
 Game.exe → MonitoringTool.exe
@@ -458,89 +434,85 @@ Game.exe → MonitoringTool.exe
 A ↔ B
 ```
 
-雙向連結。
+This is a two-way link.
 
-啟動任何一邊，都會自動啟動另一邊。
+Starting either app automatically starts the other.
 
-## 每條 Rule 可獨立設定
+## Configure each rule independently
 
-每個 Link Rule 可以獨立控制：
+Each link rule can independently control:
 
 - Enabled
 - One-way / Bidirectional
-- 是否透過 gsudo 啟動
-- Linked App 的結束行為
-- 是否持續維持 Linked App 執行
-- Launch Delay
+- Whether to launch through gsudo
+- What happens to the linked app when the other exits
+- Whether to keep the linked app running
+- Launch delay
 
-因此不同應用程式組可以使用完全不同的行為。
+Different pairs of applications can therefore have entirely different behavior.
 
 ## Manage linked apps
 
-選擇：
-
-**Manage apps**
-
-後有兩個頁籤：
+Select **Manage apps** to access two tabs:
 
 ### All apps
 
-列出 Application Catalog 中的 App。
+Lists apps in the application catalog.
 
-選擇 Trigger App 後，再選擇要和它連動的 App。
+Select the trigger app, then choose the app to link to it.
 
 ### Linked apps
 
-顯示目前已經建立的 Link Rule，可以查看與修改現有關係。
+Shows existing link rules so you can inspect and change their relationships.
 
 ---
 
 # Display Guard
 
-Display Guard 用來控制支援的實體螢幕。
+Display Guard controls supported physical monitors.
 
-依照顯示器與驅動程式能力不同，Guard Center 可能透過例如：
+Depending on the monitor and driver, Guard Center may use:
 
 - DDC/CI
 - WMI
 - Windows Display APIs
 
-取得硬體控制能力。
+to access hardware controls.
 
-並不是所有顯示器都支援所有功能。
+Not every monitor supports every feature.
 
 ## Brightness
 
-如果螢幕支援 Hardware Brightness，可以直接從 Guard Center 調整亮度。
+If a monitor supports hardware brightness, you can adjust it directly from Guard Center.
 
-支援：
+Available controls:
 
 - Slider
 - `+`
 - `−`
 
-按鈕可以以 1% 為單位調整。
+The buttons adjust brightness in 1% increments.
 
 ## Contrast
 
-如果顯示器提供 Contrast Control，也可以從 Guard Center 調整。
+If a monitor exposes contrast control, you can also adjust it from Guard Center.
 
-沒有提供 Contrast Control 的螢幕不會強行顯示這項功能。
+The option is not forced onto monitors that do not expose contrast control.
 
 # Multi-monitor Sync
 
-如果同時有多台支援的螢幕，可以使用：
+If you have multiple supported monitors, you can use:
 
 - Sync Brightness
 - Sync Contrast
 
-一次調整所有支援該功能的螢幕。
+to adjust all monitors that support the selected feature at once.
 
-不支援的顯示器會被跳過。
+Unsupported monitors are skipped.
 
 # Display Modes
 
-Display Guard 內建：
+Display Guard includes:
 
 - Standard
 - Reading
@@ -550,213 +522,189 @@ Display Guard 內建：
 - Custom
 - Live
 
-Profile 會依照每台實體 Display 儲存。
+Profiles are saved for each physical display.
 
-因此多螢幕系統中，每台螢幕可以保存不同的 Brightness / Contrast。
+In a multi-monitor setup, each monitor can therefore have its own brightness and contrast values.
 
-如果某個 Profile 中的螢幕目前沒有連線，套用 Profile 時會直接跳過，不會因此阻止其他螢幕套用。
+If a monitor in a profile is currently disconnected, applying the profile skips it without preventing other monitors from being updated.
 
 ## Live Mode
 
-Live Mode 會保存目前實際調整。
+Live Mode saves the actual adjustments you make.
 
-適合直接將 Guard Center 當作螢幕硬體控制面板使用。
+It is useful when you want to use Guard Center directly as a monitor hardware control panel.
 
 ## Custom Mode
 
-可以把目前所有支援螢幕的狀態保存成自己的 Custom Profile。
+Save the current state of all supported monitors as your own Custom Profile.
 
-## 顯示器控制注意事項
+## Notes on monitor control
 
-實體顯示器不是記憶體中的普通數值。
+A physical monitor is not an ordinary value in memory.
 
-DDC / WMI Command 可能需要數十到數百毫秒才會真正完成，因此 Guard Center 會：
+DDC/WMI commands can take tens to hundreds of milliseconds to finish. Guard Center therefore:
 
-- 將硬體操作序列化
-- 避免 Slider 拖曳產生大量硬體 Command
-- 防止舊的 Hardware Readback 覆蓋使用者剛設定的新值
+- Runs hardware operations in sequence
+- Avoids generating large numbers of hardware commands while a slider is dragged
+- Prevents an older hardware readback from overwriting a value the user just set
 
-如果顯示器剛：
+If a monitor has just:
 
-- 開機
-- 睡眠恢復
-- 重新插拔
-- 切換 Display Configuration
+- Turned on
+- Resumed from sleep
+- Been disconnected and reconnected
+- Changed display configuration
 
-可以使用 Refresh 重新偵測。
+you can use Refresh to detect it again.
 
 ---
 
 # Power Guard
 
-Power Guard 用來暫時阻止 Windows 因為閒置而自動睡眠。
+Power Guard temporarily prevents Windows from sleeping automatically due to inactivity.
 
-它使用 Windows Power Request API。
+It uses the Windows Power Request API.
 
-**不會直接修改原本的 Windows Power Plan。**
+**It does not directly change your existing Windows power plan.**
 
-## 保持清醒
+## Keep awake
 
-開啟：
+After you turn on **Keep awake**, Windows will not automatically enter sleep because of the idle timer.
 
-**保持清醒**
-
-後，Windows 不會因為 Idle Timer 而自動進入 Sleep。
-
-手動：
+You can still manually:
 
 - Sleep
-- Shutdown
+- Shut down
 - Restart
 
-仍然可以正常使用。
+## Keep display on
 
-## 螢幕恆亮
+You can also turn on **Keep display on**. Then:
 
-可以額外開啟：
+- The system stays awake
+- The display stays on
 
-**螢幕恆亮**
+If you turn this option off:
 
-此時：
+- The system still stays awake
+- The display turns off according to the normal Windows settings
 
-- 系統保持清醒
-- Display 也保持開啟
+# Duration
 
-如果關閉這個選項：
+You can set how long Power Guard remains active.
 
-- 系統仍然保持清醒
-- 螢幕則照原本 Windows 設定自動熄滅
-
-# 保持時間
-
-可以設定 Power Guard 的有效時間。
-
-包含有限時間以及：
+Options include a fixed duration and:
 
 ### Until Manual
 
-Power Guard 一直保持作用，直到使用者自己關閉。
+Power Guard stays active until you turn it off yourself.
 
 ### Custom
 
-自訂：
+Set a custom duration from **1 minute to 30 days**.
 
-**1 分鐘 ～ 30 天**
+## Countdown timeline
 
-## 倒數時間軸
+Fixed-duration modes show the remaining time.
 
-有限時間模式下會顯示剩餘時間。
+You can drag the timeline to change the remaining time directly.
 
-可以直接拖動 Timeline 修改剩餘時間。
+Changing the duration restarts the countdown from the current time.
 
-變更 Duration 時，倒數會從目前時間重新開始。
+## Power Guard limitations
 
-## Power Guard 限制
+Power Guard uses a standard Windows Power Request.
 
-Power Guard 使用標準 Windows Power Request。
+Its actual effect may still be influenced by:
 
-實際效果仍可能受到：
-
-- Windows Policy
+- Windows policy
 - Modern Standby
-- Battery Policy
-- Lock Screen
-- OEM Power Management
-
-影響。
+- Battery policy
+- Lock screen
+- OEM power management
 
 ---
 
 # VSR Guard
 
-VSR Guard 用來設定：
+VSR Guard configures **NVIDIA RTX Video Super Resolution**.
 
-**NVIDIA RTX Video Super Resolution**
+It currently focuses on Google Chrome.
 
-目前主要針對 Google Chrome。
+## Requirements
 
-## 必要條件
+Full VSR functionality requires:
 
-完整 VSR 功能需要：
-
-- NVIDIA RTX GPU
-- 正常 NVIDIA Driver
+- An NVIDIA RTX GPU
+- A working NVIDIA driver
 - Google Chrome
-- Chrome Graphics Acceleration
-- Windows 將 Chrome 指派給 High Performance GPU
-- NVIDIA RTX Video Super Resolution 開啟
+- Chrome graphics acceleration
+- Windows assigning Chrome to the high-performance GPU
+- NVIDIA RTX Video Super Resolution enabled
 
-Guard Center 會逐項檢查。
+Guard Center checks each requirement.
 
 ## Readiness
 
-VSR Guard 會顯示：
+VSR Guard shows:
 
 ### NVIDIA RTX GPU
 
-確認：
+Checks:
 
-- NVIDIA GPU 是否存在
-- 是否屬於支援 RTX VSR 的 GPU
-- Driver 是否正常
+- Whether an NVIDIA GPU is present
+- Whether it is a GPU that supports RTX VSR
+- Whether the driver is working
 
 ### Google Chrome
 
-確認：
+Checks:
 
-- Chrome 是否存在
-- Chrome Version
-- Chrome Executable Path
+- Whether Chrome is installed
+- Chrome version
+- Chrome executable path
 
 ### Power source
 
-Notebook 使用 Battery Power 時，瀏覽器可能優先採用低功耗處理方式。
+When a notebook runs on battery power, the browser may favor lower-power processing.
 
-因此建議需要 RTX Video Enhancement 時使用 AC Power。
+AC power is therefore recommended when you need RTX video enhancement.
 
 ## Required Settings
 
-Guard Center 依序檢查：
+Guard Center checks the following in order:
 
 ### 1. Chrome High performance GPU
 
-確認 Windows Graphics Preference 是否將 Chrome 指派給 High Performance GPU。
+Checks whether Windows Graphics Preference assigns Chrome to the high-performance GPU.
 
-Optimus Notebook 特別需要注意這個設定。
+This setting is especially important on Optimus notebooks.
 
 ### 2. Chrome graphics acceleration
 
-確認 Chrome：
+Checks whether **Use graphics acceleration when available** is enabled in Chrome.
 
-**Use graphics acceleration when available**
-
-已開啟。
-
-修改這個設定後通常需要重新啟動 Chrome。
+Changing this setting usually requires restarting Chrome.
 
 ### 3. NVIDIA RTX Video Super Resolution
 
-確認 NVIDIA Display Driver 中的 VSR Flag 是否已啟用。
+Checks whether the VSR flag is enabled in the NVIDIA display driver.
 
 ## Set up all
 
-如果硬體條件符合，可以使用：
+If the hardware requirements are met, select **Set up all** to have Guard Center complete the settings it can change automatically.
 
-**Set up all**
+Some actions may require:
 
-讓 Guard Center 協助完成可自動完成的設定。
-
-部分操作可能需要：
-
-- 關閉 Chrome
-- 系統管理員權限
-- 重新啟動 Chrome
+- Closing Chrome
+- Administrator privileges
+- Restarting Chrome
 
 ## NVIDIA Control Panel
 
-VSR Guard 也可以直接開啟 NVIDIA Control Panel。
+VSR Guard can also open NVIDIA Control Panel directly.
 
-可進一步管理：
+There you can manage NVIDIA's native settings, including:
 
 - Super Resolution
 - Quality
@@ -764,269 +712,239 @@ VSR Guard 也可以直接開啟 NVIDIA Control Panel。
 - Deinterlacing
 - Inverse Telecine
 
-等 NVIDIA 原生設定。
-
 ---
 
 # UAC Guard
 
-UAC Guard 是 Guard Center 中權限最高、也最需要理解後再使用的功能。
+UAC Guard has the highest level of privilege among Guard Center's features and should be understood before use.
 
-它主要提供給使用 **OpenAI Codex Windows App** 的使用者，讓 Codex 在需要執行系統管理員命令時，可以透過受控制的 `gsudo` Session 執行，而不是反覆跳出 Windows UAC。
+It is mainly intended for users of the **OpenAI Codex Windows App**. It lets Codex run administrator commands through a controlled `gsudo` session when needed, instead of repeatedly showing Windows UAC prompts.
 
-**ChatGPT / Codex GUI 本身仍然以一般使用者權限執行。**
+**The ChatGPT / Codex GUI itself continues to run with standard user privileges.**
 
-UAC Guard 不會關閉 Windows UAC。
+UAC Guard does not disable Windows UAC.
 
-# UAC Guard 組成
+# UAC Guard components
 
-UAC Guard 會檢查：
+UAC Guard checks:
 
-- OpenAI.Codex AppX Package
+- OpenAI.Codex AppX package
 - gsudo
 - Guard Center UAC Host
-- Windows Scheduled Task
-- Program Files 中的 Protected Host
-- ACL
-- 目前 gsudo Session
+- Windows scheduled task
+- Protected Host in Program Files
+- ACLs
+- Current gsudo session
 
-## 一鍵安裝／修復
+## One-click install/repair
 
-第一次使用 UAC Guard 時：
+When using UAC Guard for the first time, select **One-click install/repair**.
 
-選擇：
+Guard Center creates the required protected components.
 
-**一鍵安裝／修復**
+This step asks for Windows UAC authorization once.
 
-Guard Center 會建立需要的受保護元件。
+# Authorization modes
 
-這個步驟會要求一次 Windows UAC 授權。
+There are currently two modes.
 
-# 授權模式
+## Codex process lifecycle
 
-目前有兩種模式。
+**Recommended mode.**
 
-## Codex 行程週期
+Guard Center detects the PID of the `Codex app-server`.
 
-**建議模式。**
+Authorization is limited to:
 
-Guard Center 偵測：
+- That Codex process
+- Child processes it creates
 
-`Codex app-server`
+When Codex exits, the authorized session is revoked.
 
-的 PID。
+The next time Codex starts, Guard Center binds authorization to its new PID.
 
-授權只提供給：
+This mode provides stronger isolation.
 
-- 該 Codex Process
-- 它建立的 Child Processes
+## Guard Center lifecycle
 
-Codex 結束後，授權 Session 會被撤銷。
+High-risk mode.
 
-下一次 Codex 啟動後，Guard Center 會重新綁定新的 PID。
+Guard Center creates a gsudo session while it is open.
 
-這是隔離程度較高的模式。
+The session is revoked only when **Guard Center fully exits**.
 
-## Guard Center 生命週期
+This means authorization does not need to be recreated if Codex restarts.
 
-高風險模式。
+The trade-off is:
 
-Guard Center 開啟後建立 gsudo Session。
+> During that time, other programs run by the same Windows user may also be able to use the current gsudo cache.
 
-直到：
+Use this mode only when your workflow requires it.
 
-**Guard Center 完全退出**
+## Redetect/authorize now
 
-才撤銷。
+Manually recreate the authorization session for the selected mode.
 
-這樣即使 Codex 本身重新啟動，也不需要重新建立授權。
+## Terminate session now
 
-代價是：
-
-> 在這段期間，同一個 Windows 使用者執行的其他程式也可能利用目前的 gsudo Cache。
-
-只有確實需要這種工作流程時才建議使用。
-
-## 立即重新偵測／授權
-
-手動重新建立目前選擇的授權 Session。
-
-## 立即終止工作階段
-
-立即執行：
+Immediately run:
 
 ```text
 gsudo -k
 ```
 
-撤銷目前 Administrator Session。
+This revokes the current administrator session without closing Guard Center.
 
-不需要關閉 Guard Center。
+## Inspect the actual setup
 
-## 檢查實際設定
+UAC Guard provides shortcuts to:
 
-UAC Guard 提供：
+### Task Scheduler
 
-### 工作排程器
+Open Windows Task Scheduler directly.
 
-直接打開 Windows Task Scheduler。
+### Protected directory
 
-### 受保護目錄
+Inspect the UAC Guard Host installed in Program Files directly.
 
-直接查看安裝在 Program Files 中的 UAC Guard Host。
+The authorization mechanism therefore does not depend on invisible background state.
 
-因此 UAC Guard 的授權機制不需要依賴不可見的背景狀態。
+## Uninstall UAC Guard
 
-## 解除安裝 UAC Guard
+This removes only:
 
-只會移除：
+- The UAC Guard scheduled task
+- The Protected Host
+- UAC Guard automatic authorization components
+- Files left by older versions of the Codex Administrator Launcher
 
-- UAC Guard Scheduled Task
-- Protected Host
-- UAC Guard 自動授權元件
-- 舊版 Codex Administrator Launcher 遺留檔案
-
-不會刪除：
+It does not delete:
 
 - Codex
 - ChatGPT
-- 對話
-- Guard Center 其他設定
+- Conversations
+- Other Guard Center settings
 
-也不會修改 Windows UAC Policy。
+It also does not change Windows UAC policy.
 
 ---
 
-# 系統匣
+# System tray
 
-Guard Center 啟動後會建立 System Tray Icon。
+Guard Center creates a system tray icon when it starts.
 
-系統匣可以快速操作：
+The tray provides quick access to:
 
 - Open Guard Center
 - Power Guard
-- 保持清醒
-- 螢幕恆亮
-- Power Guard Duration
+- Keep awake
+- Keep display on
+- Power Guard duration
 - Screen Crosshair
 - Zero playback devices now
 - Open Device Guard
 - Exit
 
-雙擊 Tray Icon 可以重新打開主視窗。
+Double-click the tray icon to reopen the main window.
 
 ---
 
-# Windows 開機啟動
+# Launch at Windows startup
 
-在：
+Under **Settings → Startup**, enable **Launch at Windows startup**.
 
-**Settings → Startup**
+After you sign in to Windows, Guard Center will:
 
-可以開啟：
+1. Start automatically
+2. Minimize to the system tray
 
-**Launch at Windows startup**
-
-登入 Windows 後 Guard Center 會：
-
-1. 自動啟動
-2. 縮到 System Tray
-
-不會強制把主視窗留在桌面上。
+It will not keep the main window on the desktop.
 
 ---
 
 # Application Icon
 
-Settings 中可以更換 Guard Center 圖示。
+You can change the Guard Center icon in Settings.
 
-支援：
+Supported formats:
 
 - PNG
 - JPG / JPEG
 - BMP
 - ICO
 
-自訂圖示會套用到：
+The custom icon is used for:
 
-- Guard Center Window
+- Guard Center window
 - Taskbar
-- System Tray
-- Startup Shortcut
+- System tray
+- Startup shortcut
 - Explorer Integration
 - App Guard
 
-選擇：
-
-**Reset to default**
-
-即可恢復內建圖示。
+Select **Reset to default** to restore the built-in icon.
 
 ---
 
-# 介面操作
+# Interface controls
 
-左側 Sidebar 可以切換各個 Module。
+Use the left sidebar to switch modules.
 
-Module 順序可以拖曳調整，設定會自動保存。
+Drag modules to reorder them; the order is saved automatically.
 
-Guard Center 也支援 UI Scale。
+Guard Center also supports UI scaling.
 
-可以使用：
+Use `Ctrl + Mouse Wheel` to adjust the interface scale.
 
-`Ctrl + Mouse Wheel`
-
-調整介面比例。
-
-目前允許範圍：
+The current range is:
 
 ```text
-85% ～ 135%
+85% to 135%
 ```
 
 ---
 
-# 設定保存
+# Saving settings
 
-Guard Center 會自動保存使用者設定，包括：
+Guard Center automatically saves user settings, including:
 
 - Audio Guard
 - Game Helper
 - App Protection
-- Link Guard Rules
-- Display Profiles
+- Link Guard rules
+- Display profiles
 - Power Guard
-- UAC Guard Mode
-- Sidebar Order
-- UI Scale
-- Custom Icon
+- UAC Guard mode
+- Sidebar order
+- UI scale
+- Custom icon
 
-因此正常關閉並重新啟動後，不需要重新設定。
+You do not need to configure them again after closing and restarting normally.
 
 ---
 
-# 系統需求
+# System requirements
 
-## 作業系統
+## Operating system
 
-Guard Center 是 Windows 專用程式。
+Guard Center is a Windows-only application.
 
-建議：
+Recommended:
 
 - Windows 10
 - Windows 11
 
-部分功能依賴現代 Windows API，因此 Windows 11 是主要使用環境。
+Some features depend on modern Windows APIs, so Windows 11 is the primary target environment.
 
-## Runtime / 開發環境
+## Runtime / development environment
 
-專案 Target Framework：
+Project target framework:
 
 ```text
 net8.0-windows
 ```
 
-使用：
+Technologies used:
 
 - .NET 8
 - WPF
@@ -1036,192 +954,170 @@ net8.0-windows
 
 ---
 
-# 從原始碼執行
+# Run from source
 
-目前 GitHub Repository 尚未提供正式 Releases，因此可以直接從原始碼建置。
+The GitHub repository currently has no official Releases, so you can build directly from source.
 
-需要先安裝：
+First install the **.NET 8 SDK**.
 
-**.NET 8 SDK**
-
-然後 Clone：
+Then clone:
 
 ```powershell
 git clone https://github.com/daniel88516/Guard-Center.git
 cd Guard-Center
 ```
 
-Restore：
+Restore:
 
 ```powershell
 dotnet restore "src/Guard Center.csproj"
 ```
 
-Build：
+Build:
 
 ```powershell
 dotnet build "src/Guard Center.csproj"
 ```
 
-執行：
+Run:
 
 ```powershell
 dotnet run --project "src/Guard Center.csproj"
 ```
 
-或直接執行：
+Or run this directly:
 
 ```text
 src\bin\Debug\net8.0-windows\Guard Center.exe
 ```
 
-# 建置可交付版本
+# Build a distributable version
 
-建置者在 Windows x64 電腦安裝 .NET 8 SDK 後，於專案根目錄執行：
+On a Windows x64 computer with the .NET 8 SDK installed, run this from the project root:
 
 ```powershell
 .\build.bat
 ```
 
-腳本會發布主程式及 UAC Guard Host，封裝成 `dist\Guard Center.exe`。
-**`dist` 最終只有這一個檔案**；交付時可以單獨複製此 exe，不必附上原始碼或 `bin` 目錄。
-建置訊息使用英文；成功或失敗時視窗會停留，按任意鍵才關閉。
+The script publishes the main program and UAC Guard Host, then packages them as `dist\Guard Center.exe`.
+**The final `dist` directory contains only this file**. You can distribute the exe by itself without the source code or `bin` directory.
+Build messages are in English; the window stays open after success or failure until you press any key.
 
-使用者在 Windows x64 上首次啟動時，單檔啟動器會自動將內含的程式檔及
-.NET 8 執行環境展開至 `%LOCALAPPDATA%\Guard Center\Portable`，再啟動主程式。
-因此使用者不需安裝 .NET Desktop Runtime、開啟 IDE 或自行編譯。
-一般設定存於 `%LOCALAPPDATA%\Guard Center\Portable\State\Shared\settings.ini`；
-更新或移動 exe 時仍可沿用設定。不同版本的展開檔目前可能留在該資料夾。
+On first launch on Windows x64, the single-file launcher automatically extracts the bundled program files and .NET 8 runtime to `%LOCALAPPDATA%\Guard Center\Portable`, then starts the main program.
+Users therefore do not need to install the .NET Desktop Runtime, open an IDE, or compile the program themselves.
+Normal settings are stored in `%LOCALAPPDATA%\Guard Center\Portable\State\Shared\settings.ini` and remain available if the exe is updated or moved. Extracted files from different versions may currently remain in that folder.
 
-UAC Guard 等特殊功能仍可能需要相應硬體、驅動、額外元件與使用者授權。
-目前尚未提供公開的 GitHub Release 或安裝程式。
+Special features such as UAC Guard may still require suitable hardware, drivers, additional components, and user authorization.
+There is currently no public GitHub Release or installer.
 
 ---
 
-# 哪些功能需要 Administrator？
+# Which features require administrator privileges?
 
-Guard Center 本身**不需要整個程式永遠以 Administrator 身分執行**。
+Guard Center itself **does not need to run as administrator all the time**.
 
-一般功能會維持 Standard User 權限。
+General features run with standard user privileges.
 
-但下列操作可能需要提升權限：
+These actions may require elevation:
 
-- Device Guard 部分 Repair
-- UAC Guard 安裝 / 修復
-- UAC Guard Protected Host 管理
-- VSR Driver-level 設定
-- 部分 PnP Device 操作
-- Link Guard 使用 gsudo 啟動 App
+- Some Device Guard repairs
+- UAC Guard installation/repair
+- UAC Guard Protected Host management
+- VSR driver-level settings
+- Some PnP device operations
+- Launching apps through gsudo in Link Guard
 
-需要時 Guard Center 才會要求 Windows UAC。
+Guard Center requests Windows UAC only when needed.
 
 ---
 
-# 使用上的重要觀念
+# Important usage principles
 
-Guard Center 的設計原則不是「啟動後一直掃描整台電腦」。
+Guard Center is designed to avoid scanning the entire computer constantly after launch.
 
-大部分昂貴操作只在有需要時執行。
+Most expensive operations run only when needed.
 
-例如：
+For example:
 
-- App Catalog 使用背景載入
-- Display topology 使用事件式刷新
-- Audio Session 只在相關頁面需要時更新
-- Display DDC 操作不阻塞 UI
-- Game Helper 的 All Apps 第一次開啟才掃描
-- Link Guard 的 Application Catalog 需要時才載入
+- The app catalog loads in the background
+- Display topology refreshes in response to events
+- Audio sessions update only when the relevant pages need them
+- Display DDC operations do not block the UI
+- Game Helper scans All apps only when it is first opened
+- Link Guard loads the application catalog only when needed
 
-因此單純把 Guard Center 留在 System Tray，不代表它會不停執行所有 Hardware Scan。
+Leaving Guard Center in the system tray therefore does not mean it continuously runs every hardware scan.
 
 ---
 
 # Troubleshooting
 
-## 找不到 App Audio Session
+## An app's audio session is missing
 
-先讓該 App 播放音訊，再回到 Audio Guard。
+Play audio from the app once, then return to Audio Guard.
 
-## Display Guard 看不到 Brightness / Contrast
+## Brightness / Contrast is missing in Display Guard
 
-可能原因：
+Possible reasons:
 
-- 顯示器不支援 DDC/CI
-- 顯示器 OSD 中關閉 DDC/CI
-- Driver 不提供該功能
-- Display 剛從 Sleep 恢復
-- Dock / Adapter 阻擋 DDC Command
+- The monitor does not support DDC/CI
+- DDC/CI is disabled in the monitor's on-screen display (OSD)
+- The driver does not expose the feature
+- The display has just resumed from sleep
+- A dock or adapter blocks DDC commands
 
-先嘗試：
+Try **Refresh** and make sure DDC/CI is enabled in the monitor's OSD.
 
-**Refresh**
+## VSR Guard reports NVIDIA GPU Unsupported
 
-並確認螢幕 OSD 中 DDC/CI 已啟用。
+Check that:
 
-## VSR Guard 顯示 NVIDIA GPU Unsupported
+- You are using an NVIDIA RTX GPU
+- The NVIDIA driver is working
+- The GPU is currently enabled
 
-確認：
+## Chrome Graphics Acceleration cannot be changed
 
-- 使用的是 NVIDIA RTX GPU
-- NVIDIA Driver 正常
-- GPU 目前處於啟用狀態
+If Chrome is running, it may write its own Local State back over the change.
 
-## Chrome Graphics Acceleration 無法修改
+First:
 
-如果 Chrome 正在執行，Chrome 可能會重新寫回自己的 Local State。
+1. Close every Chrome window
+2. Confirm that all Chrome processes have exited
+3. Change the setting again
 
-先：
+## UAC Guard cannot find Codex
 
-1. 關閉所有 Chrome 視窗
-2. 確認 Chrome Process 已完全退出
-3. 再重新設定
+UAC Guard's Codex Process Mode needs to find the **OpenAI Codex Windows App** and its `app-server` process.
 
-## UAC Guard 找不到 Codex
+If Codex has not started, UAC Guard waits for it.
 
-UAC Guard 的 Codex Process Mode 需要找到：
+## Device Guard still reports a problem after repair
 
-**OpenAI Codex Windows App**
+Some driver/PnP problems cannot be fixed by restarting the device alone.
 
-以及它的：
+You may still need to:
 
-`app-server`
+- Restart Windows
+- Disconnect and reconnect the device
+- Update the driver
+- Reinstall the driver
+- Use an OEM utility
 
-Process。
-
-如果 Codex 尚未啟動，UAC Guard 會保持等待狀態。
-
-## Device Guard 修復後仍異常
-
-部分 Driver / PnP 問題不能單靠 Restart Device 解決。
-
-可能仍需要：
-
-- Windows Restart
-- 重新插拔裝置
-- 更新 Driver
-- 重新安裝 Driver
-- OEM Utility
-
-Device Guard 會盡量顯示對應狀態，例如：
-
-`Restart required`
-
-或：
-
-`Driver required`
+Device Guard tries to show the corresponding state, such as `Restart required` or `Driver required`.
 
 ---
 
-# 技術架構
+# Technical architecture
 
-主要結構：
+Main structure:
 
 ```text
 Guard-Center
 │
-├─ README.md、build.bat、Guard Center.exe（本機建置檔，Git 不追蹤）
+├─ README.md, build.bat, Guard Center.exe (local build artifact; not tracked by Git)
 ├─ src
-│  ├─ Guard Center.csproj、App.xaml、App.xaml.cs
+│  ├─ Guard Center.csproj, App.xaml, App.xaml.cs
 │  ├─ Modules
 │  ├─ Shared
 │  ├─ Tools
@@ -1229,12 +1125,12 @@ Guard-Center
 │  │  └─ PortableLauncher
 │  ├─ GuardCenter.Tests
 │  └─ Assets
-└─ dist（建置輸出，Git 不追蹤）
+└─ dist (build output; not tracked by Git)
 ```
 
-主要程式與 UI 維持 Standard User Context。
+The main program and UI run in a standard user context.
 
-只有需要系統管理員權限的特定操作才透過獨立的 Elevated Host 或 gsudo 執行。
+Only specific operations that require administrator privileges use a separate elevated host or gsudo.
 
 ---
 
@@ -1244,4 +1140,4 @@ Repository:
 
 https://github.com/daniel88516/Guard-Center
 
-Guard Center 的目標不是取代 Windows Settings，而是將實際日常會需要反覆調整、監控或修復的 Windows 功能集中到一個介面，減少在不同控制台、設定頁面與第三方工具之間切換。
+Guard Center aims to bring Windows features that you regularly adjust, monitor, or repair into one interface, reducing the need to switch between Control Panel, Settings pages, and third-party tools.
