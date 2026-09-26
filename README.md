@@ -1,5 +1,46 @@
 # Guard Center
 
+## 快速開始：直接執行 exe，或用 build.bat 建置
+
+**Guard Center 可打包成單一 `Guard Center.exe`，在 Windows x64 上直接啟動；也可以下載原始碼，雙擊 `build.bat` 自行產生這個 exe，不必安裝或開啟 Visual Studio。**
+
+### 已取得建置完成的 exe
+
+直接雙擊單檔版本的 `Guard Center.exe` 即可使用，不需要另外安裝 .NET Desktop Runtime 或 SDK。
+首次啟動會自動把內含的必要元件展開至使用者的 `%LOCALAPPDATA%\Guard Center\Portable`，再開啟主程式。
+
+### 從原始碼產生 exe
+
+1. 下載此 Repository 的 ZIP 並完整解壓縮，或使用 Git clone。
+2. 如果電腦尚未安裝 SDK，從 [Microsoft 官方下載頁](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) 安裝 **.NET 8 SDK 的 Windows x64 版本**。
+3. 雙擊專案根目錄的 [`build.bat`](build.bat)，等待建置完成；也可以在 PowerShell 執行：
+
+   ```powershell
+   .\build.bat
+   ```
+
+4. 開啟 `dist`，執行裡面的 **`Guard Center.exe`**。`dist` 只有這一個檔案，可以單獨複製給其他 Windows x64 使用者。
+
+建置需要的 NuGet 套件與發布用執行元件會由 .NET 自動下載，第一次建置請保持網路連線。
+訊息中的 `restore` 是取得專案相依套件的正常步驟。
+建置訊息使用英文，結束後視窗會保留結果，按任意鍵才關閉。
+
+### 如果提示缺少元件
+
+| 提示或情況 | 處理方式 |
+| --- | --- |
+| 找不到 `dotnet`，或顯示未安裝 .NET SDK | 安裝上方官方連結中的 .NET 8 SDK，完成後重新開啟 `build.bat`。 |
+| 套件下載失敗或無法連線至 NuGet | 確認網路連線與 NuGet 來源可用，再執行 `build.bat`；相依套件會自動重新取得。 |
+| 使用 UAC Guard 等功能時提示需要額外元件 | 依該模組的設定／安裝提示補齊必要元件，並在需要時完成 Windows UAC 授權。硬體功能亦需相容的裝置與驅動。 |
+
+上述單檔使用方式適用於 `build.bat` 產生的 `dist\Guard Center.exe`。
+一般 `dotnet build` 的輸出仍需搭配其附檔與 .NET Desktop Runtime。
+目前 GitHub 的 Download ZIP 提供原始碼，尚無公開 Releases 成品；可依上方步驟自行建置。
+
+---
+
+## 專案介紹
+
 Guard Center 是一套專為 Windows 設計的桌面系統工具，將日常使用電腦時分散在 Windows、驅動程式、控制台與不同應用程式中的功能集中到同一個介面。
 
 它目前包含：
