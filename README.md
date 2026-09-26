@@ -19,7 +19,7 @@
    .\build.bat
    ```
 
-4. 開啟 `dist`，執行裡面的 **`Guard Center.exe`**。`dist` 只有這一個檔案，可以單獨複製給其他 Windows x64 使用者。
+4. 開啟 `dist`，執行裡面的 **`Guard Center.exe`**。`dist` 只有這一個檔案，可以單獨複製給其他 Windows x64 使用者；建置也會同步更新根目錄的同名 exe。
 
 建置需要的 NuGet 套件與發布用執行元件會由 .NET 自動下載，第一次建置請保持網路連線。
 訊息中的 `restore` 是取得專案相依套件的正常步驟。
@@ -1054,25 +1054,25 @@ cd Guard-Center
 Restore：
 
 ```powershell
-dotnet restore
+dotnet restore "src/Guard Center.csproj"
 ```
 
 Build：
 
 ```powershell
-dotnet build
+dotnet build "src/Guard Center.csproj"
 ```
 
 執行：
 
 ```powershell
-dotnet run --project "Guard Center.csproj"
+dotnet run --project "src/Guard Center.csproj"
 ```
 
 或直接執行：
 
 ```text
-bin\Debug\net8.0-windows\Guard Center.exe
+src\bin\Debug\net8.0-windows\Guard Center.exe
 ```
 
 # 建置可交付版本
@@ -1219,35 +1219,17 @@ Device Guard 會盡量顯示對應狀態，例如：
 ```text
 Guard-Center
 │
-├─ App.xaml
-├─ App.xaml.cs
-│
-├─ Modules
-│  ├─ AppGuard
-│  ├─ AudioGuard
-│  ├─ DeviceGuard
-│  ├─ DisplayGuard
-│  ├─ GameHelper
-│  ├─ KeyboardGuard
-│  ├─ LinkGuard
-│  ├─ PowerGuard
-│  ├─ UACGuard
-│  └─ VsrGuard
-│
-├─ Shared
-│  ├─ Applications
-│  ├─ Collections
-│  ├─ GUI.cs
-│  ├─ LinkGuardUI.cs
-│  ├─ MainWindow.xaml
-│  └─ Settings.cs
-│
-├─ Tools
-│  └─ UacGuardHost
-│
-├─ GuardCenter.Tests
-│
-└─ Assets
+├─ README.md、build.bat、Guard Center.exe（本機建置檔，Git 不追蹤）
+├─ src
+│  ├─ Guard Center.csproj、App.xaml、App.xaml.cs
+│  ├─ Modules
+│  ├─ Shared
+│  ├─ Tools
+│  │  ├─ UacGuardHost
+│  │  └─ PortableLauncher
+│  ├─ GuardCenter.Tests
+│  └─ Assets
+└─ dist（建置輸出，Git 不追蹤）
 ```
 
 主要程式與 UI 維持 Standard User Context。

@@ -8,7 +8,7 @@
     <ApplicationIcon>../../Assets/GuardCenter.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="../../obj/portable-package/payload.zip"
+    <EmbeddedResource Include="../../../obj/portable-package/payload.zip"
                       LogicalName="GuardCenter.Payload.zip" />
   </ItemGroup>
 </Project>

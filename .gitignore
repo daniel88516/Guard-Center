@@ -7,6 +7,7 @@ dist/
 
 # Local agent instructions
 AGENTS.md
+settings.ini
 
 # Locally deployed builds, diagnostics, and generated verification artifacts
 DeployBackups/

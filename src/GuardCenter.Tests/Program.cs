@@ -5461,13 +5461,13 @@ namespace GuardCenter.Tests
 
                 TryKillProcessTree(trigger);
                 trigger = null;
-                bool closeRequested = SpinWait.SpinUntil(delegate
+                bool closePathEntered = SpinWait.SpinUntil(delegate
                 {
-                    return module.GetRules()[0].RuntimeStatus.IndexOf("closing the linked app",
-                        StringComparison.OrdinalIgnoreCase) >= 0;
+                    string status = module.GetRules()[0].RuntimeStatus;
+                    return status.IndexOf("Trigger app closed;", StringComparison.OrdinalIgnoreCase) >= 0;
                 }, 10000);
-                AssertTrue(closeRequested,
-                    "A closing sends rule-started B through the close path; status="
+                AssertTrue(closePathEntered,
+                    "A closing moves rule-started B into the close path; status="
                     + module.GetRules()[0].RuntimeStatus);
             }
             finally
